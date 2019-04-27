@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "UpSet",
+  "name": "UpSet: Visualizing Intersecting Sets",
   "icons": [
     {
       "src": "favicon.ico",
