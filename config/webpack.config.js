@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('fs');
 const isWsl = require('is-wsl');
@@ -25,6 +25,40 @@ const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
+
+// const autoprefixer = require('autoprefixer');
+
+// const CSSMoudleLoader = {
+//   loader: 'css-loader',
+//   options: {
+//     modules: true,
+//     sourceMap: true,
+//     localIdentName: '[local]__[hash:base64:5]',
+//     minimize: true
+//   }
+// }
+
+// const CSSLoader = {
+//   loader: 'css-loader',
+//   options: {
+//     modules: false,
+//     sourceMap: true,
+//     minimize: true
+//   }
+// }
+
+// const postCSSLoader = {
+//   loader: 'postcss-loader',
+//   options: {
+//     ident: 'postcss',
+//     sourceMap: true,
+//     plugins: () => [
+//       autoprefixer({
+//         browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9']
+//       })
+//     ]
+//   }
+// }
 
 const postcssNormalize = require('postcss-normalize');
 
