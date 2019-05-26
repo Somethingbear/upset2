@@ -1,0 +1,9 @@
+@import "../../breakpoints.scss";
+
+.min_width {
+  min-width: 30em !important;
+
+  @include breakpoint-xlarge-down {
+    min-width: 20em !important;
+  }
+}
