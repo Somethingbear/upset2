@@ -4,6 +4,7 @@ import Navbar from "../Components/Navbar/Navbar";
 import { Dataset, Metadata, SetInfo, DatasetDict } from "../types/Dataset.type";
 import * as d3 from "d3";
 import DatasetInfoBox from "../Components/DatasetInfo/DatasetInfoBox";
+import { Grid } from "semantic-ui-react";
 
 type OwnProps = {};
 type State = {
@@ -40,8 +41,25 @@ export default class App extends React.Component<Props, State> {
     const { datasets } = this.state;
     return (
       <>
-        <Navbar datasetDict={datasets} />
-        <DatasetInfoBox datasetDict={datasets} />
+        <Grid>
+          <Grid.Column width={16}>
+            <Grid.Row>
+              <Navbar datasetDict={datasets} />
+            </Grid.Row>
+            <Grid.Row columns="three">
+              <Grid>
+                <Grid.Column width={3}>
+                  <Grid.Column> Filter Box</Grid.Column>
+                  <Grid.Column>
+                    <DatasetInfoBox datasetDict={datasets} />
+                  </Grid.Column>
+                </Grid.Column>
+                <Grid.Column width={9}>Upset View</Grid.Column>
+                <Grid.Column width={4}>Element View</Grid.Column>
+              </Grid>
+            </Grid.Row>
+          </Grid.Column>
+        </Grid>
       </>
     );
   }
