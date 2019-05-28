@@ -4,11 +4,10 @@ import { DatasetDict, Dataset } from "../../types/Dataset.type";
 import { connect } from "react-redux";
 import { Card, Divider, Header, Icon } from "semantic-ui-react";
 
-type OwnProps = {
-  datasetDict: DatasetDict;
-};
+type OwnProps = {};
 type StateProps = {
   dataset: string;
+  datasetDict: DatasetDict;
 };
 type DispatchProps = {};
 
@@ -45,7 +44,8 @@ const DatasetInfoBox: React.FC<Props> = (props: Props) => {
 
 const mapStateToProps = (state: UpsetState): StateProps => {
   return {
-    dataset: state.dataset
+    dataset: state.selectedDatasetName,
+    datasetDict: state.datasetDict
   };
 };
 

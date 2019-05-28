@@ -1,14 +1,20 @@
 import { createStore, combineReducers, Store } from "redux";
-import { DatasetReducer } from "./Reducers/Dataset.reducer";
+import {
+  DatasetReducer,
+  DatasetDictBuildAction
+} from "./Reducers/Dataset.reducer";
+import { DatasetDict } from "../types/Dataset.type";
 
 export interface UpsetState {
-  dataset: string;
+  selectedDatasetName: string;
+  datasetDict: DatasetDict;
 }
 
 export const AppState = (): Store<UpsetState> => {
-  return createStore(
+  return createStore<UpsetState, any, {}, {}>(
     combineReducers({
-      dataset: DatasetReducer
+      selectedDatasetName: DatasetReducer,
+      datasetDict: DatasetDictBuildAction
     })
   );
 };

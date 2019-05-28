@@ -6,23 +6,28 @@ import * as d3 from "d3";
 import DatasetInfoBox from "../Components/DatasetInfo/DatasetInfoBox";
 import { Grid } from "semantic-ui-react";
 import { processDataset } from "../Data/processDatasetJSON";
-import { getSubset } from "../types/Subset";
+import { UpsetState } from "../State/UpsetState";
+import {
+  DatasetDictBuildAction,
+  DatasetDictActions
+} from "../State/Reducers/Dataset.reducer";
+import { Dispatch } from "redux";
+import { connect } from "react-redux";
 
-type OwnProps = {};
-type State = {
+interface StateProps {
   datasets: DatasetDict;
-};
-type Props = OwnProps;
+}
+interface OwnProps extends OptionalProps {}
+interface OptionalProps {}
+interface DispatchProps {
+  updateDict: (datasetDict: DatasetDict) => void;
+}
 
-export default class App extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      datasets: {}
-    };
-  }
+type Props = OwnProps & StateProps & DispatchProps;
 
+class App extends React.Component<Props> {
   componentDidMount() {
+    const { updateDict } = this.props;
     d3.json("data/datasets.json").then((json: any) => {
       const list = json.map((j: any) => d3.json(j));
       Promise.all(list).then(newList => {
@@ -32,29 +37,25 @@ export default class App extends React.Component<Props, State> {
           datasets[d.name] = d;
         });
 
-        this.setState({
-          datasets: datasets
-        });
+        updateDict(datasets);
       });
     });
   }
 
   render() {
-    const { datasets } = this.state;
-
     return (
       <>
         <Grid>
           <Grid.Column width={16}>
             <Grid.Row>
-              <Navbar datasetDict={datasets} />
+              <Navbar />
             </Grid.Row>
             <Grid.Row columns="three">
               <Grid>
                 <Grid.Column width={3}>
                   <Grid.Column> Filter Box</Grid.Column>
                   <Grid.Column>
-                    <DatasetInfoBox datasetDict={datasets} />
+                    <DatasetInfoBox />
                   </Grid.Column>
                 </Grid.Column>
                 <Grid.Column width={9}>Upset View</Grid.Column>
@@ -67,3 +68,26 @@ export default class App extends React.Component<Props, State> {
     );
   }
 }
+
+const mapStateToProps = (state: UpsetState): StateProps => {
+  return {
+    datasets: state.datasetDict
+  };
+};
+
+const mapDispatchToProps = (
+  dispatch: Dispatch<DatasetDictBuildAction>
+): DispatchProps => {
+  return {
+    updateDict: (datasets: DatasetDict) =>
+      dispatch({
+        type: DatasetDictActions.UPDATE_DICT,
+        args: datasets
+      })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

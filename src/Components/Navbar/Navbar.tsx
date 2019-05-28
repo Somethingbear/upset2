@@ -12,6 +12,7 @@ import {
 
 interface StateProps {
   selectedDataset: string;
+  datasetDict: DatasetDict;
 }
 
 interface DispatchProps {
@@ -19,16 +20,10 @@ interface DispatchProps {
 }
 
 interface OwnProps extends OptionalProps {}
-interface OptionalProps {
-  datasetDict: DatasetDict;
-}
+interface OptionalProps {}
 
 type Props = OwnProps & StateProps & DispatchProps;
 class Navbar extends React.Component<Props> {
-  static defaultProps: OptionalProps = {
-    datasetDict: {}
-  };
-
   render() {
     const { datasetDict, selectedDataset, changeDataset } = this.props;
 
@@ -71,7 +66,8 @@ class Navbar extends React.Component<Props> {
 
 const mapStateToProps = (state: UpsetState): StateProps => {
   return {
-    selectedDataset: state.dataset
+    selectedDataset: state.selectedDatasetName,
+    datasetDict: state.datasetDict
   };
 };
 const mapDispatchToProps = (
