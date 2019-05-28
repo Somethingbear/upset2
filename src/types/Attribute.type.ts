@@ -1,4 +1,4 @@
-export type Attribute<T> = {
+export type Attribute<T extends number | string> = {
   name: string;
   sort: number;
   type: string;
