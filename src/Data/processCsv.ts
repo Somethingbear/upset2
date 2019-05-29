@@ -2,7 +2,7 @@
 
 import { Dataset } from "../types/Dataset.type";
 import * as d3 from "d3";
-import { Data, getData } from "../types/Data.type";
+import { Data, getData, Membership } from "../types/Data.type";
 import { Set, getSet } from "../types/Set";
 import { Attribute } from "../types/Attribute.type";
 import { Subset, getSubset } from "../types/Subset";
@@ -66,6 +66,7 @@ function addRawData(data: d3.DSVParsedArray<d3.DSVRowString>) {
 function setupSubsets(data: Data) {
   const combinations = Math.pow(2, data.usedSets.length) - 1;
   const subsets: Subset[] = [];
+  const membership: Membership = {};
 
   let aggIntersection: { [key: string]: number[] } = {};
 
@@ -136,13 +137,19 @@ function setupSubsets(data: Data) {
       data.depth
     );
 
+    subset.itemList.forEach(item => {
+      if (!membership[item]) membership[item] = [];
+      membership[item].push(subset.id);
+    });
+
     subsets.push(subset);
   }
   aggIntersection = {};
 
   return {
     combinations,
-    subsets
+    subsets,
+    membership
   };
 }
 
