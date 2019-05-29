@@ -12,7 +12,7 @@ export function getSet(
   combinedSets: number[],
   itemList: number[],
   depth: number,
-  isSuperCall: boolean
+  isSuperCall: boolean = false
 ): Set {
   const set: Set = {
     ...getBaseSet(
