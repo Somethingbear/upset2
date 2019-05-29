@@ -17,6 +17,7 @@ export interface Data {
   unusedSets: Array<Set>;
   membership: Membership;
   collapsedList: string[];
+  rawData: any[];
 }
 
 export function getData(): Data {
@@ -33,6 +34,7 @@ export function getData(): Data {
     noDefaultSets: 6,
     unusedSets: [],
     membership: {},
-    collapsedList: []
+    collapsedList: [],
+    rawData: []
   };
 }
