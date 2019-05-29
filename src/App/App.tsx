@@ -8,8 +8,8 @@ import { Grid } from "semantic-ui-react";
 import { processDataset } from "../Data/processDatasetJSON";
 import { UpsetState } from "../State/UpsetState";
 import {
-  DatasetDictBuildAction,
-  DatasetDictActions
+  DatasetDictActions,
+  DatasetDictBuildAction
 } from "../State/Reducers/Dataset.reducer";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";

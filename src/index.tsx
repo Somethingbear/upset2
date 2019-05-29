@@ -34,9 +34,9 @@ export function observeStore(
   return unsubscribe;
 }
 
-observeStore(store, (state: UpsetState) =>
-  processCsv(state.datasetDict[state.selectedDatasetName])
-);
+observeStore(store, (state: UpsetState) => {
+  processCsv(state.datasetDict[state.selectedDatasetName], store);
+});
 
 store.dispatch({
   type: DatasetActions.CHANGE_DATASET,

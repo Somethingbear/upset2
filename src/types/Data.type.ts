@@ -1,6 +1,7 @@
 import { Set } from "./Set";
 import { Subset } from "./Subset";
 import { Attribute } from "./Attribute.type";
+import { Group } from "./Group";
 
 export type Membership = { [key: string]: string[] };
 export interface Data {
@@ -15,10 +16,13 @@ export interface Data {
   depth: number;
   noDefaultSets: number;
   unusedSets: Array<Set>;
+  renderRows: Array<RenderRow>;
   membership: Membership;
   collapsedList: string[];
   rawData: any[];
 }
+
+export type RenderRow = Group & Subset;
 
 export function getData(): Data {
   return {
@@ -35,6 +39,7 @@ export function getData(): Data {
     unusedSets: [],
     membership: {},
     collapsedList: [],
-    rawData: []
+    rawData: [],
+    renderRows: []
   };
 }
