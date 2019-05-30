@@ -32,7 +32,7 @@ class Navbar extends React.Component<Props> {
     const datasets: Datasets = Object.values(datasetDict);
 
     return (
-      <Menu inverted>
+      <Menu id="navbar" inverted>
         <Menu.Item header>UpSet - Visualizing Intersecting Sets</Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>

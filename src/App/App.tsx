@@ -13,6 +13,7 @@ import {
 } from "../State/Reducers/Dataset.reducer";
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
+import Upset from "../Components/UpsetComponent/Upset";
 
 interface StateProps {
   datasets: DatasetDict;
@@ -45,20 +46,22 @@ class App extends React.Component<Props> {
   render() {
     return (
       <>
-        <Grid>
+        <Grid style={{ height: "100vh" }}>
           <Grid.Column width={16}>
             <Grid.Row>
               <Navbar />
             </Grid.Row>
-            <Grid.Row columns="three">
-              <Grid>
+            <Grid.Row style={{ height: "99%" }} columns="three">
+              <Grid style={{ height: "99%" }}>
                 <Grid.Column width={3}>
                   <Grid.Column> Filter Box</Grid.Column>
                   <Grid.Column>
                     <DatasetInfoBox />
                   </Grid.Column>
                 </Grid.Column>
-                <Grid.Column width={9}>Upset View</Grid.Column>
+                <Grid.Column width={9}>
+                  <Upset />
+                </Grid.Column>
                 <Grid.Column width={4}>Element View</Grid.Column>
               </Grid>
             </Grid.Row>

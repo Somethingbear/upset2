@@ -1,8 +1,5 @@
 import { Action } from "redux";
-import {
-  RenderConfig,
-  getDefaultRenderConfig
-} from "../../Data/RenderConfiguration/RenderConfig";
+import { RenderConfig } from "../../Data/RenderConfiguration/RenderConfig";
 import { Reducer } from "redux";
 import { deepCopy } from "../../utils";
 
@@ -18,10 +15,7 @@ export interface UpdateRenderConfigAction extends Action {
 export const RenderConfigReducer: Reducer<
   RenderConfig,
   UpdateRenderConfigAction
-> = (
-  current: RenderConfig = getDefaultRenderConfig(),
-  action: UpdateRenderConfigAction
-) => {
+> = (current: RenderConfig = {} as any, action: UpdateRenderConfigAction) => {
   switch (RenderConfigActions[action.type]) {
     case RenderConfigActions.UPDATE_CONFIG:
       return deepCopy(action.args);

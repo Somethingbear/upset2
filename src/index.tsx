@@ -26,18 +26,19 @@ observeStore(
   }
 );
 
-observeStore(
-  store,
-  (currentState: UpsetState, nextState: UpsetState) => {
-    return (
-      nextState.renderConfig !== currentState.renderConfig ||
-      nextState.datasetDict !== currentState.datasetDict
-    );
-  },
-  (state: UpsetState) => {
-    console.log("Changed", state.renderConfig);
-  }
-);
+// observeStore(
+//   store,
+//   (currentState: UpsetState, nextState: UpsetState) => {
+//     return (
+//       nextState.renderConfig !== currentState.renderConfig ||
+//       nextState.datasetDict !== currentState.datasetDict
+//     );
+//   },
+//   (state: UpsetState) => {
+//     const { renderConfig, currentData } = state;
+//     console.log(renderConfig, currentData);
+//   }
+// );
 
 store.dispatch({
   type: DatasetActions.CHANGE_DATASET,
@@ -54,4 +55,6 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
+
 serviceWorker.unregister();
+// serviceWorker.register();
