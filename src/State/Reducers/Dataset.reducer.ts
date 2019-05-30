@@ -1,6 +1,7 @@
 import { Reducer, Action } from "redux";
 import { DatasetDict } from "../../types/Dataset.type";
 import { Data, getData } from "../../types/Data.type";
+import { deepCopy } from "../../utils";
 
 export enum DatasetActions {
   CHANGE_DATASET = "CHANGE_DATASET"
@@ -35,7 +36,7 @@ export const DatasetReducer: Reducer<string, DatasetChangeAction> = (
 ) => {
   switch (DatasetActions[action.type]) {
     case DatasetActions.CHANGE_DATASET:
-      return action.args;
+      return deepCopy(action.args);
     default:
       return current;
   }
@@ -47,7 +48,7 @@ export const DatasetDictReducer: Reducer<
 > = (current: DatasetDict = {}, action: DatasetDictBuildAction) => {
   switch (DatasetDictActions[action.type]) {
     case DatasetDictActions.UPDATE_DICT:
-      return action.args;
+      return deepCopy(action.args);
     default:
       return current;
   }
@@ -59,7 +60,7 @@ export const DataUpdateReducer: Reducer<Data, DataUpdateAction> = (
 ) => {
   switch (DataUpdateActions[action.type]) {
     case DataUpdateActions.UPDATE_DATA:
-      return action.args;
+      return deepCopy(action.args);
     default:
       return current;
   }

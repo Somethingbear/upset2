@@ -4,6 +4,7 @@ import {
   getDefaultRenderConfig
 } from "../../Data/RenderConfiguration/RenderConfig";
 import { Reducer } from "redux";
+import { deepCopy } from "../../utils";
 
 export enum RenderConfigActions {
   UPDATE_CONFIG = "UPDATE_CONFIG"
@@ -23,7 +24,7 @@ export const RenderConfigReducer: Reducer<
 ) => {
   switch (RenderConfigActions[action.type]) {
     case RenderConfigActions.UPDATE_CONFIG:
-      return action.args;
+      return deepCopy(action.args);
     default:
       return current;
   }

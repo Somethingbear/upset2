@@ -5,38 +5,39 @@ import App from "./App/App";
 import * as serviceWorker from "./serviceWorker";
 import { AppState, UpsetState } from "./State/UpsetState";
 import { Provider } from "react-redux";
-import { AnyAction, Store } from "redux";
 import { DatasetActions } from "./State/Reducers/Dataset.reducer";
 import { processCsv } from "./Data/processCsv";
+import { generateStoreObserver } from "./utils";
 
 const store = AppState();
 
-export function observeStore(
-  store: Store<UpsetState, AnyAction>,
-  onChange: Function
-) {
-  let currentState: UpsetState;
+const { observeStore } = generateStoreObserver();
 
-  function handleChange() {
-    let nextState = store.getState();
-    if (!currentState) currentState = nextState;
-    else if (
+observeStore(
+  store,
+  (currentState: UpsetState, nextState: UpsetState) => {
+    return (
       nextState.selectedDatasetName !== currentState.selectedDatasetName ||
       nextState.datasetDict !== currentState.datasetDict
-    ) {
-      currentState = nextState;
-      onChange(currentState);
-    }
+    );
+  },
+  (state: UpsetState) => {
+    processCsv(state.datasetDict[state.selectedDatasetName], store);
   }
+);
 
-  let unsubscribe = store.subscribe(handleChange);
-  handleChange();
-  return unsubscribe;
-}
-
-observeStore(store, (state: UpsetState) => {
-  processCsv(state.datasetDict[state.selectedDatasetName], store);
-});
+observeStore(
+  store,
+  (currentState: UpsetState, nextState: UpsetState) => {
+    return (
+      nextState.renderConfig !== currentState.renderConfig ||
+      nextState.datasetDict !== currentState.datasetDict
+    );
+  },
+  (state: UpsetState) => {
+    console.log("Changed", state.renderConfig);
+  }
+);
 
 store.dispatch({
   type: DatasetActions.CHANGE_DATASET,

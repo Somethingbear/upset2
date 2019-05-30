@@ -9,10 +9,12 @@ import {
   DatasetChangeAction,
   DatasetActions
 } from "../../State/Reducers/Dataset.reducer";
+import { Data } from "../../types/Data.type";
 
 interface StateProps {
   selectedDataset: string;
   datasetDict: DatasetDict;
+  data: Data;
 }
 
 interface DispatchProps {
@@ -67,7 +69,8 @@ class Navbar extends React.Component<Props> {
 const mapStateToProps = (state: UpsetState): StateProps => {
   return {
     selectedDataset: state.selectedDatasetName,
-    datasetDict: state.datasetDict
+    datasetDict: state.datasetDict,
+    data: state.currentData
   };
 };
 const mapDispatchToProps = (
