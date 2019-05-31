@@ -4,7 +4,6 @@ import Navbar from "../Components/Navbar/Navbar";
 import { DatasetDict } from "../types/Dataset.type";
 import * as d3 from "d3";
 import DatasetInfoBox from "../Components/DatasetInfo/DatasetInfoBox";
-import { Grid } from "semantic-ui-react";
 import { processDataset } from "../Data/processDatasetJSON";
 import { UpsetState } from "../State/UpsetState";
 import {
@@ -14,6 +13,7 @@ import {
 import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import Upset from "../Components/UpsetComponent/Upset";
+import { debouncedEventHandler } from "../utils";
 
 interface StateProps {
   datasets: DatasetDict;
@@ -27,8 +27,19 @@ interface DispatchProps {
 type Props = OwnProps & StateProps & DispatchProps;
 
 class App extends React.Component<Props> {
+  resizeEventHandler: () => void;
+
+  constructor(props: Props) {
+    super(props);
+    this.resizeEventHandler = debouncedEventHandler(200, this.resizeHandler);
+  }
+
   componentDidMount() {
     const { updateDict } = this.props;
+    this.resizeHandler();
+
+    window.addEventListener("resize", this.resizeEventHandler);
+
     d3.json("data/datasets.json").then((json: any) => {
       const list = json.map((j: any) => d3.json(j));
       Promise.all(list).then(newList => {
@@ -43,30 +54,30 @@ class App extends React.Component<Props> {
     });
   }
 
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.resizeEventHandler);
+  }
+
+  resizeHandler() {
+    const header = document.querySelector("#navbar") as HTMLDivElement;
+    const headerHeight = header.offsetHeight;
+    const headerStyle = getComputedStyle(header);
+    const body = document.querySelector("#body") as HTMLDivElement;
+
+    body.style.height = `${window.innerHeight -
+      headerHeight -
+      parseInt(headerStyle.marginTop as string) -
+      parseInt(headerStyle.marginBottom as string)}px`;
+  }
+
   render() {
     return (
       <>
-        <Grid style={{ height: "100vh" }}>
-          <Grid.Column width={16}>
-            <Grid.Row>
-              <Navbar />
-            </Grid.Row>
-            <Grid.Row style={{ height: "99%" }} columns="three">
-              <Grid style={{ height: "99%" }}>
-                <Grid.Column width={3}>
-                  <Grid.Column> Filter Box</Grid.Column>
-                  <Grid.Column>
-                    <DatasetInfoBox />
-                  </Grid.Column>
-                </Grid.Column>
-                <Grid.Column width={9}>
-                  <Upset />
-                </Grid.Column>
-                <Grid.Column width={4}>Element View</Grid.Column>
-              </Grid>
-            </Grid.Row>
-          </Grid.Column>
-        </Grid>
+        <Navbar id="navbar" />
+        <div id="body" className="body">
+          <DatasetInfoBox />
+          <Upset />
+        </div>
       </>
     );
   }

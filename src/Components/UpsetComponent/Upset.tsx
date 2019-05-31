@@ -24,9 +24,11 @@ class Upset extends React.Component<Props, OwnState> {
     const { data } = this.props;
 
     return (
-      <svg className={styles.upsetSVG}>
-        <g />
-      </svg>
+      <div className={styles.upsetWrapper}>
+        <svg className={styles.upsetSVG}>
+          <g />
+        </svg>
+      </div>
     );
   }
 }

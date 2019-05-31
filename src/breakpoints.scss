@@ -146,3 +146,11 @@ $breakpoints: (
     @content;
   }
 }
+
+@mixin breakpoint-xxxlarge-up {
+  $min-value: map-get($breakpoints, xxxlarge);
+
+  @media (min-width: $min-value) {
+    @content;
+  }
+}

@@ -33,5 +33,16 @@ export function generateStoreObserver() {
   };
 }
 
-//  nextState.selectedDatasetName !== currentState.selectedDatasetName ||
-//           nextState.datasetDict !== currentState.datasetDict
+export function debouncedEventHandler(delay: number, func: Function) {
+  let timerId: number;
+
+  return function(...args: any[]) {
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => {
+      func(...args);
+      timerId = null as any;
+    }, delay);
+  };
+}

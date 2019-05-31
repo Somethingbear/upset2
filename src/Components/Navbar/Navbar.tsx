@@ -22,17 +22,23 @@ interface DispatchProps {
 }
 
 interface OwnProps extends OptionalProps {}
-interface OptionalProps {}
+interface OptionalProps {
+  id: string;
+}
 
 type Props = OwnProps & StateProps & DispatchProps;
 class Navbar extends React.Component<Props> {
+  static defaultProps: OptionalProps = {
+    id: ""
+  };
+
   render() {
-    const { datasetDict, selectedDataset, changeDataset } = this.props;
+    const { id, datasetDict, selectedDataset, changeDataset } = this.props;
 
     const datasets: Datasets = Object.values(datasetDict);
 
     return (
-      <Menu id="navbar" inverted>
+      <Menu id={id} inverted>
         <Menu.Item header>UpSet - Visualizing Intersecting Sets</Menu.Item>
         <Menu.Menu position="right">
           <Menu.Item>
