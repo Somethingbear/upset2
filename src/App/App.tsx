@@ -75,8 +75,11 @@ class App extends React.Component<Props> {
       <>
         <Navbar id="navbar" />
         <div id="body" className="body">
-          <DatasetInfoBox />
+          <div>
+            <DatasetInfoBox />
+          </div>
           <Upset />
+          <div>Test</div>
         </div>
       </>
     );

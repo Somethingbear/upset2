@@ -13,9 +13,9 @@ html {
 
 #body {
   display: grid;
-  grid-template-columns: 1fr 4fr 2fr;
+  grid-template-columns: 1.15fr 4fr 2fr;
 
   @include breakpoint-xxxlarge-up {
-    grid-template-columns: 1fr 10fr 3fr;
+    grid-template-columns: 1.15fr 10fr 3fr;
   }
 }

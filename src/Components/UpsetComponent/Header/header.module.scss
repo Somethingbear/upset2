@@ -1,0 +1,13 @@
+@import "../../../colors.scss";
+
+.set_header_background {
+  fill: $set-background;
+}
+
+.set_header_foreground {
+  fill: $set-foreground;
+}
+
+.set_highlight {
+  fill: $set-background-highlight !important;
+}
