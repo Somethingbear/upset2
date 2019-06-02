@@ -9,6 +9,8 @@ import { getRawData } from "./processRawData";
 import { getSets } from "./getSets";
 import { getAttributes } from "./getAttributes";
 import { setupSubsets } from "./setupSubset";
+import { RenderConfigActions } from "../State/Reducers/RenderConfig.reducer";
+import { getDefaultRenderConfig } from "./RenderConfiguration/RenderConfig";
 
 export function processCsv(
   datasetInfo: Dataset,
@@ -56,6 +58,13 @@ export function processCsv(
         ...data,
         ...setupSubsets(data)
       };
+
+      if (!store.getState().renderConfig.firstLevelAggregation) {
+        store.dispatch({
+          type: RenderConfigActions.UPDATE_CONFIG,
+          args: getDefaultRenderConfig()
+        });
+      }
 
       store.dispatch({
         type: DataUpdateActions.UPDATE_DATA,

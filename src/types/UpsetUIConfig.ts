@@ -11,4 +11,10 @@ export interface UpsetConfig {
     };
   };
   headerBodyPadding: number;
+  body: {
+    rowHeight: number;
+    matrix: {
+      circRadius: number;
+    };
+  };
 }

@@ -6,9 +6,13 @@ import styles from "./upset.module.scss";
 import * as d3 from "d3";
 import SetHeader from "./Header/SetHeader";
 import { UpsetConfig } from "../../types/UpsetUIConfig";
+import MatrixView from "./Body/MatrixView";
+import { RenderConfig } from "../../Data/RenderConfiguration/RenderConfig";
+import { applyRenderConfig } from "../../Data/applyRenderConfig";
 
 interface StateProps {
   data: Data;
+  renderConfig: RenderConfig;
 }
 interface DispatchProps {}
 interface OptionalProps {}
@@ -35,37 +39,26 @@ class Upset extends React.Component<Props, OwnState> {
           skew: 45
         }
       },
-      headerBodyPadding: 10
+      headerBodyPadding: 5,
+      body: {
+        rowHeight: 20,
+        matrix: {
+          circRadius: 10
+        }
+      }
     };
   }
 
-  componentDidUpdate() {
-    this.resizeSVG();
-  }
+  render() {
+    const { data, renderConfig } = this.props;
 
-  resizeSVG = () => {
-    const svgObject: SVGSVGElement = this.svgRef.current as SVGSVGElement;
-    const { header, headerBodyPadding } = this.state;
-
-    const { data } = this.props;
+    const { header, headerBodyPadding, body } = this.state;
 
     const skewDegree = (header.label.skew * Math.PI) / 180;
 
-    svgObject.style.height = `${header.bar.height +
-      header.label.height +
-      headerBodyPadding}
-      px`;
+    const renderRows = applyRenderConfig(data, renderConfig);
 
-    svgObject.style.width = `${header.label.height / Math.tan(skewDegree) +
-      header.label.width * data.usedSets.length}px`;
-  };
-
-  render() {
-    const { data } = this.props;
-
-    const { header } = this.state;
-
-    console.log(data);
+    console.log(renderRows);
 
     return (
       <div className={styles.upsetWrapper}>
@@ -84,6 +77,22 @@ class Upset extends React.Component<Props, OwnState> {
                 unusedSets={data.unusedSets}
                 maxSetSize={d3.max(data.sets.map(set => set.setSize)) as number}
               />
+              <g
+                transform={`translate(${header.label.height /
+                  Math.tan(skewDegree)}, ${header.label.height +
+                  header.bar.height +
+                  headerBodyPadding})`}
+              >
+                <g className="matrix-view">
+                  <MatrixView
+                    rows={renderRows}
+                    rowHeight={body.rowHeight}
+                    matrixWidth={header.label.width * data.usedSets.length}
+                    circRadius={body.matrix.circRadius}
+                    visibleSetCount={data.usedSets.length}
+                  />
+                </g>
+              </g>
             </>
           </svg>
         )}
@@ -93,7 +102,8 @@ class Upset extends React.Component<Props, OwnState> {
 }
 
 const mapStateToProps = (state: UpsetState): StateProps => ({
-  data: state.currentData
+  data: state.currentData,
+  renderConfig: state.renderConfig
 });
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({});

@@ -22,7 +22,7 @@ export interface Data {
   rawData: any[];
 }
 
-export type RenderRow = Group & Subset;
+export type RenderRow = Group | Subset;
 
 export function getData(): Data {
   return {

@@ -26,20 +26,6 @@ observeStore(
   }
 );
 
-// observeStore(
-//   store,
-//   (currentState: UpsetState, nextState: UpsetState) => {
-//     return (
-//       nextState.renderConfig !== currentState.renderConfig ||
-//       nextState.datasetDict !== currentState.datasetDict
-//     );
-//   },
-//   (state: UpsetState) => {
-//     const { renderConfig, currentData } = state;
-//     console.log(renderConfig, currentData);
-//   }
-// );
-
 store.dispatch({
   type: DatasetActions.CHANGE_DATASET,
   args: "Simpsons Characters"

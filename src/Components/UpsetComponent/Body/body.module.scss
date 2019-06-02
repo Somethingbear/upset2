@@ -1,0 +1,21 @@
+@import "../../../colors.scss";
+
+.is_set_member {
+  fill: #636363;
+}
+
+.is_not_set_member {
+  fill: #f0f0f0;
+}
+
+.set_highlight {
+  fill: $set-background-highlight !important;
+}
+
+.combinations {
+  pointer-events: none;
+}
+
+.set_background_column {
+  pointer-events: all;
+}
