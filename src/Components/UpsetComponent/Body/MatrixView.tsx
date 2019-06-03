@@ -26,16 +26,7 @@ const MatrixView: React.FC<Props> = ({
       <g className="set-background-columns">
         {arr.map(i => {
           return (
-            <g
-              key={i}
-              className={styles.set_background_column}
-              onMouseEnter={() => {
-                d3.selectAll(`.Set_${i}`).classed(styles.set_highlight, true);
-              }}
-              onMouseLeave={() => {
-                d3.selectAll(`.Set_${i}`).classed(styles.set_highlight, false);
-              }}
-            >
+            <g key={i}>
               <rect
                 className={`Set_${i}`}
                 width={20}
@@ -50,14 +41,36 @@ const MatrixView: React.FC<Props> = ({
 
       {rows.map((row: RenderRow, idx: number) => {
         return (
-          <g
-            className={styles.combinations}
-            transform={`translate(0, ${rowHeight * idx})`}
-            key={row.id}
-          >
-            <rect height={rowHeight} width={matrixWidth} fill="none" />
+          <g transform={`translate(0, ${rowHeight * idx})`} key={row.id}>
             {row.type === RowType.SUBSET ? (
-              <g className="combinations" transform={`translate(${10},${10})`}>
+              <g
+                className={styles.combinations}
+                transform={`translate(${10},${10})`}
+                onMouseEnter={() => {
+                  const arr = (row as Subset).combinedSets
+                    .map((d, i) => (d === 1 ? i : -1))
+                    .filter(i => i !== -1);
+
+                  arr.forEach(i => {
+                    d3.selectAll(`.Set_${i}`).classed(
+                      styles.set_highlight,
+                      true
+                    );
+                  });
+                }}
+                onMouseLeave={() => {
+                  const arr = (row as Subset).combinedSets
+                    .map((d, i) => (d === 1 ? i : -1))
+                    .filter(i => i !== -1);
+
+                  arr.forEach(i => {
+                    d3.selectAll(`.Set_${i}`).classed(
+                      styles.set_highlight,
+                      false
+                    );
+                  });
+                }}
+              >
                 {(row as Subset).combinedSets.map(
                   (set: number, set_idx: number) => {
                     return (
@@ -70,6 +83,18 @@ const MatrixView: React.FC<Props> = ({
                         }
                         r={circRadius * 0.9}
                         transform={`translate(${set_idx * circRadius * 2}, 0)`}
+                        onMouseEnter={() => {
+                          d3.selectAll(`.Set_${set_idx}`).classed(
+                            styles.set_highlight2,
+                            true
+                          );
+                        }}
+                        onMouseLeave={() => {
+                          d3.selectAll(`.Set_${set_idx}`).classed(
+                            styles.set_highlight2,
+                            false
+                          );
+                        }}
                       />
                     );
                   }
