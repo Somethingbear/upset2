@@ -14,6 +14,7 @@ import { Dispatch } from "redux";
 import { connect } from "react-redux";
 import Upset from "../Components/UpsetComponent/Upset";
 import { debouncedEventHandler } from "../utils";
+import Sidebar from "../Components/Sidebar/Sidebar";
 
 interface StateProps {
   datasets: DatasetDict;
@@ -76,6 +77,7 @@ class App extends React.Component<Props> {
         <Navbar id="navbar" />
         <div id="body" className="body">
           <div>
+            <Sidebar />
             <DatasetInfoBox />
           </div>
           <Upset />
