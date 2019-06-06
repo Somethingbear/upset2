@@ -11,10 +11,14 @@ export interface UpsetConfig {
     };
     attributeHeaders: {
       yOffset: number;
+      height: number;
     };
+    headerElementPadding: number;
   };
   headerBodyPadding: number;
   verticalPadding: number;
+  attributeWidth: number;
+
   body: {
     rowHeight: number;
     matrix: {

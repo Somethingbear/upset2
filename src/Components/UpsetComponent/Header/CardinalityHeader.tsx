@@ -18,6 +18,9 @@ interface StateProps {
 
 interface OwnProps {
   cardinalityScaleMax: number;
+  padding: number;
+  width: number;
+  height: number;
   updatedLocalScale: (newMax: number) => void;
 }
 
@@ -51,12 +54,17 @@ class CardinalityHeader extends React.Component<Props, State> {
   }
 
   scaleRefresh() {
-    const { cardinalityScaleMax, updatedLocalScale } = this.props;
+    const {
+      cardinalityScaleMax,
+      updatedLocalScale,
+      width,
+      height
+    } = this.props;
 
     const globalCardinalityScale: d3.ScaleLinear<number, number> = d3
       .scaleLinear()
       .domain([0, cardinalityScaleMax])
-      .range([0, 200]);
+      .range([0, width]);
 
     this.setState({
       secondaryCardinalityScaleMax: Math.ceil(cardinalityScaleMax * 0.2)
@@ -67,7 +75,7 @@ class CardinalityHeader extends React.Component<Props, State> {
       "transform",
       `translate(${globalCardinalityScale(
         Math.ceil(cardinalityScaleMax * 0.2)
-      )}, ${30 / 2 - 10 / Math.sqrt(2)})`
+      )}, ${height / 2 - 10 / Math.sqrt(2)})`
     );
   }
 
@@ -77,12 +85,17 @@ class CardinalityHeader extends React.Component<Props, State> {
   }
 
   addCardinalityGlobalScale() {
-    const { cardinalityScaleMax, updatedLocalScale } = this.props;
+    const {
+      cardinalityScaleMax,
+      updatedLocalScale,
+      width,
+      height
+    } = this.props;
 
     const globalCardinalityScale: d3.ScaleLinear<number, number> = d3
       .scaleLinear()
       .domain([0, cardinalityScaleMax])
-      .range([0, 200]);
+      .range([0, width]);
 
     const globalCardinalityAxisUpper: d3.Axis<any> = d3.axisBottom(
       globalCardinalityScale
@@ -123,7 +136,7 @@ class CardinalityHeader extends React.Component<Props, State> {
 
         rect.attr(
           "transform",
-          `translate(${x}, ${30 / 2 - 10 / Math.sqrt(2)})`
+          `translate(${x}, ${height / 2 - 10 / Math.sqrt(2)})`
         );
 
         this.setState({
@@ -142,12 +155,13 @@ class CardinalityHeader extends React.Component<Props, State> {
   }
 
   addCardinalityLocalScale() {
+    const { width } = this.props;
     const { secondaryCardinalityScaleMax } = this.state;
 
     const localScale = d3
       .scaleLinear()
       .domain([0, secondaryCardinalityScaleMax])
-      .range([0, 200]);
+      .range([0, width]);
 
     const localScaleAxisUpper = d3.axisBottom(localScale);
     const localScaleAxisLower = d3.axisTop(localScale).tickFormat(() => "");
@@ -157,14 +171,14 @@ class CardinalityHeader extends React.Component<Props, State> {
   }
 
   render() {
-    const { cardinalityScaleMax } = this.props;
+    const { cardinalityScaleMax, width, padding, height } = this.props;
 
     const { secondaryCardinalityScaleMax, showSlider } = this.state;
 
     const globalCardinalityScale: d3.ScaleLinear<number, number> = d3
       .scaleLinear()
       .domain([0, cardinalityScaleMax])
-      .range([0, 200]);
+      .range([0, width]);
 
     return (
       <>
@@ -174,16 +188,16 @@ class CardinalityHeader extends React.Component<Props, State> {
           />
           <g
             className="cardinality-global-axis-lower"
-            transform={`translate(0, ${30})`}
+            transform={`translate(0, ${height})`}
           />
           <rect
             className={styles.cardnality_brush}
-            height={30}
+            height={height}
             width={globalCardinalityScale(secondaryCardinalityScaleMax)}
           />
           <g
             className="cardinality-slider"
-            transform={`translate(0, ${30 / 2 - 10 / Math.sqrt(2)})`}
+            transform={`translate(0, ${height / 2 - 10 / Math.sqrt(2)})`}
           >
             <rect
               className={styles.cardinality_slider_rect}
@@ -192,22 +206,22 @@ class CardinalityHeader extends React.Component<Props, State> {
             />
           </g>
         </g>
-        <g transform={`translate(0, ${30 + 5})`}>
+        <g transform={`translate(0, ${height + padding})`}>
           <path
             className={`${styles.slider_influence} ${
               !showSlider ? styles.hide : ""
             }`}
             d={`M ${globalCardinalityScale(
               secondaryCardinalityScaleMax
-            )} ${-5}  H ${0} V ${35} H ${200}`}
+            )} ${-padding}  H ${0} V ${height + padding} H ${width}`}
           />
           <g
             className={`${showSlider ? styles.hide : styles.cardinality_block}`}
           >
             <HeaderBlock
               fontSize={1.2}
-              width={200}
-              height={30}
+              width={width}
+              height={height}
               text="Cardinality"
               onClick={() => {
                 this.props.renderConfigUpdate();
@@ -218,14 +232,14 @@ class CardinalityHeader extends React.Component<Props, State> {
         </g>
         <g
           className="bottom-scale"
-          transform={`translate(0, ${30 + 5 + 30 + 5})`}
+          transform={`translate(0, ${height + padding + height + padding})`}
         >
           <g
             className={`cardinality-local-axis-upper ${styles.axisFontSize}`}
           />
           <g
             className="cardinality-local-axis-lower"
-            transform={`translate(0, ${30})`}
+            transform={`translate(0, ${height})`}
           />
         </g>
       </>

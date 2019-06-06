@@ -62,16 +62,16 @@ const CardinalityBars: React.FC<Props> = ({
                         <line
                           y1={0}
                           y2={rowHeight}
-                          x1={175}
-                          x2={185}
+                          x1={width * 0.9}
+                          x2={width * 0.9 + 10}
                           stroke="white"
                           strokeWidth="2"
                         />
                         <line
                           y1={0}
                           y2={rowHeight}
-                          x1={180}
-                          x2={190}
+                          x1={width * 0.9 + 5}
+                          x2={width * 0.9 + 15}
                           stroke="white"
                           strokeWidth="2"
                         />

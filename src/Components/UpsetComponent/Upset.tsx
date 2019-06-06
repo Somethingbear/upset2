@@ -31,23 +31,37 @@ class Upset extends React.Component<Props, OwnState> {
   state: OwnState = {} as any;
   constructor(props: Props) {
     super(props);
+
+    const header_bar_height = 100;
+    const header_label_height = 100;
+    const headerElementPadding = 5;
+    const rowHeight = 30;
     this.state = {
       header: {
         bar: {
-          height: 100,
+          height: header_bar_height,
           width: 20
         },
         label: {
-          height: 100,
+          height: header_label_height,
           width: 20,
           skew: 45
         },
         attributeHeaders: {
-          yOffset: 135
-        }
+          yOffset:
+            header_bar_height +
+            header_label_height -
+            3 * rowHeight -
+            2 * headerElementPadding +
+            rowHeight +
+            headerElementPadding,
+          height: rowHeight
+        },
+        headerElementPadding
       },
       headerBodyPadding: 5,
       verticalPadding: 20,
+      attributeWidth: 200,
       body: {
         rowHeight: 20,
         matrix: {
@@ -72,7 +86,8 @@ class Upset extends React.Component<Props, OwnState> {
       headerBodyPadding,
       verticalPadding,
       body,
-      cardinalityMax
+      cardinalityMax,
+      attributeWidth
     } = this.state;
 
     const skewDegree = (header.label.skew * Math.PI) / 180;
@@ -105,12 +120,15 @@ class Upset extends React.Component<Props, OwnState> {
                     data.usedSets.length +
                     header.bar.height +
                     verticalPadding}, ${header.attributeHeaders.yOffset -
-                    5 -
+                    header.headerElementPadding -
                     30})`}
                 >
                   <CardinalityHeader
                     cardinalityScaleMax={data.allItems.length}
                     updatedLocalScale={this.updateLocalCardinalityScale}
+                    padding={header.headerElementPadding}
+                    width={attributeWidth}
+                    height={header.attributeHeaders.height}
                   />
                 </g>
               </g>
@@ -140,7 +158,7 @@ class Upset extends React.Component<Props, OwnState> {
                     cardinalityMax={cardinalityMax}
                     rows={renderRows}
                     rowHeight={body.rowHeight}
-                    width={200}
+                    width={attributeWidth}
                   />
                 </g>
               </g>
