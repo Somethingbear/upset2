@@ -42,6 +42,7 @@ const CardinalityBars: React.FC<Props> = ({
         return (
           <GComponent
             key={row.id}
+            id={row.id}
             transform={`translate(0, ${rowHeight * idx})`}
             duration={300}
           >

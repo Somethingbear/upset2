@@ -43,8 +43,9 @@ const MatrixView: React.FC<Props> = ({
         {rows.map((row: RenderRow, idx: number) => {
           return (
             <GComponent
-              transform={`translate(0, ${rowHeight * idx})`}
               key={row.id}
+              transform={`translate(0, ${rowHeight * idx})`}
+              id={row.id}
               duration={300}
             >
               {row.type === RowType.SUBSET ? (
