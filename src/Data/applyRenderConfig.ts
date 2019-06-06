@@ -1,5 +1,6 @@
 import { Data, RenderRow } from "../types/Data.type";
 import { RenderConfig } from "./RenderConfiguration/RenderConfig";
+import { SortBy } from "../types/SortBy.enum";
 
 export function applyRenderConfig(
   data: Data,
@@ -10,7 +11,7 @@ export function applyRenderConfig(
     // secondLevelAggregation,
     // firstOverlap,
     // secondOverlap,
-    // sortBy,
+    sortBy,
     // sortBySetId,
     // collapseAll,
     // minDegree,
@@ -21,6 +22,10 @@ export function applyRenderConfig(
   let rows: RenderRow[] = data.subsets;
 
   if (hideEmptyIntersections) rows = rows.filter(row => row.setSize > 0);
+
+  if (sortBy === SortBy.CARDINALITY) {
+    rows = rows.sort(s => s.setSize);
+  }
 
   return rows;
 }

@@ -11,3 +11,32 @@
 .set_highlight {
   fill: $set-background-highlight !important;
 }
+
+.sort_cursor {
+  cursor: s-resize !important;
+}
+
+.stop_pointer_events {
+  pointer-events: none;
+}
+
+.header_block {
+  fill: $header-block;
+  stroke: none;
+}
+
+.header_block:hover {
+  fill: $header-block-highlight;
+}
+
+.axisFontSize {
+  font-size: 0.8em;
+}
+
+.cardinality_slider_rect {
+  fill: $cardinality-slider-rect;
+  opacity: 0.5;
+  stroke: black;
+  stroke-width: 1px;
+  transform: rotate(45deg);
+}

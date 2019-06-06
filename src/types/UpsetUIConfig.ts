@@ -9,8 +9,12 @@ export interface UpsetConfig {
       width: number;
       skew: number;
     };
+    attributeHeaders: {
+      yOffset: number;
+    };
   };
   headerBodyPadding: number;
+  verticalPadding: number;
   body: {
     rowHeight: number;
     matrix: {

@@ -4,6 +4,7 @@ import { RowType } from "../../../types/RowType.enum";
 import { Subset } from "../../../types/Subset";
 import * as d3 from "d3";
 import styles from "./body.module.scss";
+import { Flipped, Flipper } from "react-flip-toolkit";
 
 interface Props {
   rows: RenderRow[];
@@ -16,7 +17,6 @@ interface Props {
 const MatrixView: React.FC<Props> = ({
   rows,
   rowHeight,
-  matrixWidth,
   circRadius,
   visibleSetCount
 }) => {
@@ -38,7 +38,6 @@ const MatrixView: React.FC<Props> = ({
           );
         })}
       </g>
-
       {rows.map((row: RenderRow, idx: number) => {
         return (
           <g transform={`translate(0, ${rowHeight * idx})`} key={row.id}>
@@ -101,6 +100,7 @@ const MatrixView: React.FC<Props> = ({
                 )}
               </g>
             ) : (
+              // Render Groups here
               <g />
             )}
           </g>

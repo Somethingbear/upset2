@@ -20,7 +20,7 @@ export function getDefaultRenderConfig(): RenderConfig {
     secondLevelAggregation: AggregateBy.NONE,
     firstOverlap: 0,
     secondOverlap: 0,
-    sortBy: SortBy.CARDINALITY,
+    sortBy: SortBy.DEGREE,
     collapseAll: false,
     hideEmptyIntersections: true,
     minDegree: 0,

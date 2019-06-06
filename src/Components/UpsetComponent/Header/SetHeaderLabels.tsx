@@ -43,7 +43,7 @@ const SetHeaderLabels: React.FC<Props> = ({
               />
               <text
                 textAnchor="end"
-                alignmentBaseline="central"
+                // dominantBaseline="central"
                 transform={`translate(${labelTextOffset}, ${setLabelHeight})rotate(${setLabelSkewDegree})`}
               >
                 {set.elementName}
