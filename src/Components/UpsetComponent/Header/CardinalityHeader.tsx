@@ -23,6 +23,7 @@ interface OwnProps {
 
 interface State {
   secondaryCardinalityScaleMax: number;
+  showSlider: boolean;
 }
 
 interface DispatchProps {
@@ -39,7 +40,8 @@ class CardinalityHeader extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      secondaryCardinalityScaleMax: 0
+      secondaryCardinalityScaleMax: 0,
+      showSlider: false
     };
   }
 
@@ -98,27 +100,43 @@ class CardinalityHeader extends React.Component<Props, State> {
       globalCardinalityAxisLower as any
     );
 
-    const drag = d3.drag().on("drag", () => {
-      const rect = d3.select(".cardinality-slider");
-      const mousePos = d3.event.x;
+    const drag = d3
+      .drag()
+      .on("drag", () => {
+        if (!this.state.showSlider) {
+          this.setState({
+            showSlider: true
+          });
+        }
 
-      const minimum = 0.1;
+        const rect = d3.select(".cardinality-slider");
+        const mousePos = d3.event.x;
 
-      let x =
-        mousePos >= minimum
-          ? mousePos <= globalCardinalityScale(cardinalityScaleMax)
-            ? mousePos
-            : globalCardinalityScale(cardinalityScaleMax)
-          : minimum;
+        const minimum = 0.1;
 
-      rect.attr("transform", `translate(${x}, ${30 / 2 - 15 / Math.sqrt(2)})`);
+        let x =
+          mousePos >= minimum
+            ? mousePos <= globalCardinalityScale(cardinalityScaleMax)
+              ? mousePos
+              : globalCardinalityScale(cardinalityScaleMax)
+            : minimum;
 
-      this.setState({
-        secondaryCardinalityScaleMax: globalCardinalityScale.invert(x)
+        rect.attr(
+          "transform",
+          `translate(${x}, ${30 / 2 - 15 / Math.sqrt(2)})`
+        );
+
+        this.setState({
+          secondaryCardinalityScaleMax: globalCardinalityScale.invert(x)
+        });
+
+        updatedLocalScale(globalCardinalityScale.invert(x));
+      })
+      .on("end", () => {
+        this.setState({
+          showSlider: false
+        });
       });
-
-      updatedLocalScale(globalCardinalityScale.invert(x));
-    });
 
     d3.select(".cardinality-slider").call(drag as any);
   }
@@ -139,6 +157,15 @@ class CardinalityHeader extends React.Component<Props, State> {
   }
 
   render() {
+    const { cardinalityScaleMax } = this.props;
+
+    const { secondaryCardinalityScaleMax, showSlider } = this.state;
+
+    const globalCardinalityScale: d3.ScaleLinear<number, number> = d3
+      .scaleLinear()
+      .domain([0, cardinalityScaleMax])
+      .range([0, 200]);
+
     return (
       <>
         <g className="top-scale">
@@ -148,6 +175,11 @@ class CardinalityHeader extends React.Component<Props, State> {
           <g
             className="cardinality-global-axis-lower"
             transform={`translate(0, ${30})`}
+          />
+          <rect
+            className={styles.cardnality_brush}
+            height={30}
+            width={globalCardinalityScale(secondaryCardinalityScaleMax)}
           />
           <g
             className="cardinality-slider"
@@ -161,15 +193,27 @@ class CardinalityHeader extends React.Component<Props, State> {
           </g>
         </g>
         <g transform={`translate(0, ${30 + 5})`}>
-          <HeaderBlock
-            fontSize={1.2}
-            width={200}
-            height={30}
-            text="Cardinality"
-            onClick={() => {
-              this.props.renderConfigUpdate();
-            }}
+          <path
+            className={`${styles.slider_influence} ${
+              !showSlider ? styles.hide : ""
+            }`}
+            d={`M ${globalCardinalityScale(
+              secondaryCardinalityScaleMax
+            )} ${-5}  H ${0} V ${35} H ${200}`}
           />
+          <g
+            className={`${showSlider ? styles.hide : styles.cardinality_block}`}
+          >
+            <HeaderBlock
+              fontSize={1.2}
+              width={200}
+              height={30}
+              text="Cardinality"
+              onClick={() => {
+                this.props.renderConfigUpdate();
+              }}
+            />
+          </g>
           <g />
         </g>
         <g

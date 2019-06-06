@@ -54,6 +54,7 @@ function applySort(
             d3.sum((r2 as Subset).combinedSets)
         );
       }
+      return rows;
     case SortBy.DEVIATION:
       return rows;
     case SortBy.SET:

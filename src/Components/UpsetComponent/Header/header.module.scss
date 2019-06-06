@@ -40,3 +40,24 @@
   stroke-width: 1px;
   transform: rotate(45deg);
 }
+
+.cardnality_brush {
+  fill: $cardinality-brush-color;
+  opacity: 0.25;
+}
+
+.slider_influence {
+  fill: $cardinality-brush-color;
+  opacity: 0.25;
+  transition: opacity 500ms;
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.cardinality_block {
+  opacity: 1;
+  transition: opacity 500ms;
+}
