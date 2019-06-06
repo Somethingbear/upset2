@@ -1,6 +1,7 @@
 import * as React from "react";
 import { RenderRow } from "../../../types/Data.type";
 import * as d3 from "d3";
+import GComponent from "../../../Util/GComponent";
 
 interface Props {
   rows: RenderRow[];
@@ -39,7 +40,11 @@ const CardinalityBars: React.FC<Props> = ({
         const arr = Array.from(Array(numberOfBands).keys());
 
         return (
-          <g key={row.id} transform={`translate(0, ${rowHeight * idx})`}>
+          <GComponent
+            key={row.id}
+            transform={`translate(0, ${rowHeight * idx})`}
+            duration={300}
+          >
             <g>
               {breakBands
                 ? arr.map(i => {
@@ -107,7 +112,7 @@ const CardinalityBars: React.FC<Props> = ({
                 {row.setSize}
               </text>
             </g>
-          </g>
+          </GComponent>
         );
       })}
     </g>
