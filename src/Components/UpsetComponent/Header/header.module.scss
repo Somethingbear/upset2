@@ -39,6 +39,13 @@
   stroke: black;
   stroke-width: 1px;
   transform: rotate(45deg);
+  cursor: ew-resize;
+  transition: transform 500ms;
+}
+
+.cardinality_slider_rect:hover {
+  transform: rotate(45deg) scale(1.5);
+  transition: transform 500ms;
 }
 
 .cardnality_brush {

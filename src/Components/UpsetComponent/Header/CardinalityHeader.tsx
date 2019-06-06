@@ -67,7 +67,7 @@ class CardinalityHeader extends React.Component<Props, State> {
       "transform",
       `translate(${globalCardinalityScale(
         Math.ceil(cardinalityScaleMax * 0.2)
-      )}, ${30 / 2 - 15 / Math.sqrt(2)})`
+      )}, ${30 / 2 - 10 / Math.sqrt(2)})`
     );
   }
 
@@ -123,7 +123,7 @@ class CardinalityHeader extends React.Component<Props, State> {
 
         rect.attr(
           "transform",
-          `translate(${x}, ${30 / 2 - 15 / Math.sqrt(2)})`
+          `translate(${x}, ${30 / 2 - 10 / Math.sqrt(2)})`
         );
 
         this.setState({
@@ -183,12 +183,12 @@ class CardinalityHeader extends React.Component<Props, State> {
           />
           <g
             className="cardinality-slider"
-            transform={`translate(0, ${30 / 2 - 15 / Math.sqrt(2)})`}
+            transform={`translate(0, ${30 / 2 - 10 / Math.sqrt(2)})`}
           >
             <rect
               className={styles.cardinality_slider_rect}
-              height={15}
-              width={15}
+              height={10}
+              width={10}
             />
           </g>
         </g>

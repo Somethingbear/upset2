@@ -47,7 +47,7 @@ class Upset extends React.Component<Props, OwnState> {
         }
       },
       headerBodyPadding: 5,
-      verticalPadding: 5,
+      verticalPadding: 20,
       body: {
         rowHeight: 20,
         matrix: {
