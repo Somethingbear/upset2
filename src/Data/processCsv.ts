@@ -10,7 +10,11 @@ import { getSets } from "./getSets";
 import { getAttributes } from "./getAttributes";
 import { setupSubsets } from "./setupSubset";
 import { RenderConfigActions } from "../State/Reducers/RenderConfig.reducer";
-import { getDefaultRenderConfig } from "./RenderConfiguration/RenderConfig";
+import {
+  getDefaultRenderConfig,
+  RenderConfig
+} from "./RenderConfiguration/RenderConfig";
+import { loadConfig } from "../utils";
 
 export function processCsv(
   datasetInfo: Dataset,
@@ -60,9 +64,10 @@ export function processCsv(
       };
 
       if (!store.getState().renderConfig.firstLevelAggregation) {
+        const rc: RenderConfig = loadConfig();
         store.dispatch({
           type: RenderConfigActions.UPDATE_CONFIG,
-          args: getDefaultRenderConfig()
+          args: rc ? rc : getDefaultRenderConfig()
         });
       }
 

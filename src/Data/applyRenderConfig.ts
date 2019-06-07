@@ -16,16 +16,19 @@ export function applyRenderConfig(
     sortBy,
     // sortBySetId,
     // collapseAll,
-    // minDegree,
-    // maxDegree
+    minDegree,
+    maxDegree,
     hideEmptyIntersections
   } = config;
 
   let rows: RenderRow[] = data.subsets;
 
-  rows = applySort(rows, sortBy);
-
   if (hideEmptyIntersections) rows = rows.filter(row => row.setSize > 0);
+
+  rows = rows.filter(row => (row as Subset).count_combinedSets >= minDegree);
+  rows = rows.filter(row => (row as Subset).count_combinedSets <= maxDegree);
+
+  rows = applySort(rows, sortBy);
 
   return rows;
 }
@@ -47,7 +50,6 @@ function applySort(
 
       return rows;
     case SortBy.DEVIATION:
-      console.log("object");
       rows = rows.sort(
         (r1, r2) => r2.disproportionality - r1.disproportionality
       );

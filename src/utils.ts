@@ -1,5 +1,6 @@
 import { UpsetState } from "./State/UpsetState";
 import { AnyAction, Store } from "redux";
+import { RenderConfig } from "./Data/RenderConfiguration/RenderConfig";
 
 export function deepCopy<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -45,4 +46,18 @@ export function debouncedEventHandler(delay: number, func: Function) {
       timerId = null as any;
     }, delay);
   };
+}
+
+export const RENDER_CONFIG = "upset_render_config";
+
+export function saveConfig(rc: RenderConfig) {
+  localStorage.setItem(RENDER_CONFIG, JSON.stringify(rc));
+}
+
+export function loadConfig(): RenderConfig {
+  return localStorage.getItem(RENDER_CONFIG)
+    ? (JSON.parse(localStorage.getItem(
+        RENDER_CONFIG
+      ) as string) as RenderConfig)
+    : (null as any);
 }
