@@ -109,7 +109,21 @@ export function getAttributes(
     }
   }
 
+  const deviationAttribute: Attribute<string | number> = {
+    name: "Deviation",
+    type: "integer",
+    values: [],
+    sort: 1,
+    renderFromSubsets: true
+  };
+
+  attributes.unshift(deviationAttribute);
+
+  const selectedAttributes: Attribute<string | number>[] = [];
+  selectedAttributes.push(attributes[0]);
+
   return {
-    attributes
+    attributes,
+    selectedAttributes
   };
 }

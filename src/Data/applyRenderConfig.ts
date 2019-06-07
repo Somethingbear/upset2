@@ -37,25 +37,20 @@ function applySort(
 ): RenderRow[] {
   switch (SortBy[sortBy]) {
     case SortBy.CARDINALITY:
-      return rows.sort((r1, r2) =>
-        desc ? r2.setSize - r1.setSize : r1.setSize - r2.setSize
-      );
+      return rows.sort((r1, r2) => r2.setSize - r1.setSize);
     case SortBy.DEGREE:
-      if (!desc) {
-        rows = rows.sort(
-          (r1, r2) =>
-            d3.sum((r1 as Subset).combinedSets) -
-            d3.sum((r2 as Subset).combinedSets)
-        );
-      } else {
-        rows = rows.sort(
-          (r2, r1) =>
-            d3.sum((r1 as Subset).combinedSets) -
-            d3.sum((r2 as Subset).combinedSets)
-        );
-      }
+      rows = rows.sort(
+        (r1, r2) =>
+          d3.sum((r1 as Subset).combinedSets) -
+          d3.sum((r2 as Subset).combinedSets)
+      );
+
       return rows;
     case SortBy.DEVIATION:
+      console.log("object");
+      rows = rows.sort(
+        (r1, r2) => r2.disproportionality - r1.disproportionality
+      );
       return rows;
     case SortBy.SET:
       return rows;

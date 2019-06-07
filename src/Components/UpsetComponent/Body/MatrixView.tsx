@@ -103,6 +103,21 @@ const MatrixView: React.FC<Props> = ({
                     );
                   }
                 )}
+                {d3.sum((row as Subset).combinedSets) > 1 && (
+                  <line
+                    x1={
+                      (row as Subset).combinedSets.indexOf(1) * circRadius * 2
+                    }
+                    y1={0}
+                    x2={
+                      (row as Subset).combinedSets.lastIndexOf(1) *
+                      circRadius *
+                      2
+                    }
+                    y2={0}
+                    className={styles.matrix_view_line}
+                  />
+                )}
               </g>
             ) : (
               // Render Groups here

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Accordion, Menu, Form, Divider } from "semantic-ui-react";
+import { Accordion, Menu } from "semantic-ui-react";
 
 interface OwnProps {}
 

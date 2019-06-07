@@ -11,6 +11,8 @@ import { RenderConfig } from "../../Data/RenderConfiguration/RenderConfig";
 import { applyRenderConfig } from "../../Data/applyRenderConfig";
 import CardinalityHeader from "./Header/CardinalityHeader";
 import CardinalityBars from "./Body/CardinalityBars";
+import DeviationHeader from "./Header/DeviationHeader";
+import DeviationBars from "./Body/DeviationBars";
 
 interface StateProps {
   data: Data;
@@ -94,6 +96,14 @@ class Upset extends React.Component<Props, OwnState> {
 
     const renderRows = applyRenderConfig(data, renderConfig);
 
+    // const selectedAttributes = data.selectedAttributes.filter(
+    //   a => !a.renderFromSubsets
+    // );
+
+    const deviationAttribute = data.selectedAttributes.filter(
+      attr => attr.name === "Deviation"
+    );
+
     return (
       <div className={styles.upsetWrapper}>
         {data.name === "" ? (
@@ -116,6 +126,7 @@ class Upset extends React.Component<Props, OwnState> {
                 />
                 <g
                   key={data.name}
+                  className="cardinality-header"
                   transform={`translate(${header.bar.width *
                     data.usedSets.length +
                     header.bar.height +
@@ -130,6 +141,23 @@ class Upset extends React.Component<Props, OwnState> {
                     width={attributeWidth}
                     height={header.attributeHeaders.height}
                   />
+                </g>
+                <g
+                  className="subset-attribute-headers"
+                  transform={`translate(${header.bar.width *
+                    data.usedSets.length +
+                    header.bar.height +
+                    verticalPadding +
+                    attributeWidth +
+                    verticalPadding * 3},${header.attributeHeaders.yOffset})`}
+                >
+                  {deviationAttribute.length === 1 && (
+                    <DeviationHeader
+                      width={200}
+                      height={30}
+                      deviationMax={0.15}
+                    />
+                  )}
                 </g>
               </g>
               <g
@@ -161,6 +189,23 @@ class Upset extends React.Component<Props, OwnState> {
                     width={attributeWidth}
                   />
                 </g>
+                {deviationAttribute.length === 1 && (
+                  <g
+                    className="deviation-bars"
+                    transform={`translate(${header.label.width *
+                      data.usedSets.length +
+                      verticalPadding +
+                      attributeWidth +
+                      verticalPadding * 3}, 0)`}
+                  >
+                    <DeviationBars
+                      width={attributeWidth}
+                      rows={renderRows}
+                      rowHeight={body.rowHeight}
+                      deviationMax={0.15}
+                    />
+                  </g>
+                )}
               </g>
             </>
           </svg>

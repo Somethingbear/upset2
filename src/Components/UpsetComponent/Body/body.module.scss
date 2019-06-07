@@ -19,3 +19,21 @@
 .combinations {
   pointer-events: all;
 }
+
+.negative_disproportionality {
+  fill: $negative-disproportionality;
+}
+
+.positive_disproportionality {
+  fill: $positive-disproportionality;
+}
+
+.deviation_line {
+  stroke: black;
+  stroke-width: 0.5px;
+}
+
+.matrix_view_line {
+  stroke: #636363;
+  stroke-width: 3px;
+}
