@@ -48,7 +48,7 @@ class DeviationHeader extends React.Component<Props, State> {
 
     const scale = d3
       .scaleLinear()
-      .domain([-deviationMax, deviationMax])
+      .domain([-deviationMax * 100, deviationMax * 100])
       .range([0, width]);
 
     const axisTop = d3.axisTop(scale).ticks(3);

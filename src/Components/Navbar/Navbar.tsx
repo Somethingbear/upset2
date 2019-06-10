@@ -4,11 +4,8 @@ import { Datasets, DatasetDict } from "../../types/Dataset.type";
 import styles from "./navbar.module.scss";
 import { connect } from "react-redux";
 import { UpsetState } from "../../State/UpsetState";
-import { Dispatch } from "redux";
-import {
-  DatasetChangeAction,
-  DatasetActions
-} from "../../State/Reducers/Dataset.reducer";
+import { Dispatch, Action } from "redux";
+import { DatasetActions } from "../../State/Reducers/Dataset.reducer";
 import { Data } from "../../types/Data.type";
 
 interface StateProps {
@@ -79,15 +76,14 @@ const mapStateToProps = (state: UpsetState): StateProps => {
     data: state.currentData
   };
 };
-const mapDispatchToProps = (
-  dispatch: Dispatch<DatasetChangeAction>
-): DispatchProps => {
+const mapDispatchToProps = (dispatch: Dispatch<Action>): DispatchProps => {
   return {
-    changeDataset: (newDs: string) =>
+    changeDataset: (newDs: string) => {
       dispatch({
         type: DatasetActions.CHANGE_DATASET,
         args: newDs
-      })
+      });
+    }
   };
 };
 

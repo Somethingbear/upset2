@@ -17,6 +17,7 @@ import DeviationBars from "./Body/DeviationBars";
 interface StateProps {
   data: Data;
   renderConfig: RenderConfig;
+  loadingDataset: boolean;
 }
 interface DispatchProps {}
 interface OptionalProps {}
@@ -104,11 +105,15 @@ class Upset extends React.Component<Props, OwnState> {
       attr => attr.name === "Deviation"
     );
 
+    let deviation =
+      (d3.max(renderRows.map(r => Math.abs(r.disproportionality))) as number) ||
+      0;
+
+    deviation = (Math.ceil((deviation * 100) / 5) * 5) / 100;
+
     return (
       <div className={styles.upsetWrapper}>
-        {data.name === "" ? (
-          <div>Loading Dataset</div>
-        ) : (
+        {
           <svg ref={this.svgRef} className={styles.upsetSVG}>
             <>
               <g className="header-group">
@@ -155,7 +160,7 @@ class Upset extends React.Component<Props, OwnState> {
                     <DeviationHeader
                       width={200}
                       height={30}
-                      deviationMax={0.15}
+                      deviationMax={deviation}
                     />
                   )}
                 </g>
@@ -202,14 +207,14 @@ class Upset extends React.Component<Props, OwnState> {
                       width={attributeWidth}
                       rows={renderRows}
                       rowHeight={body.rowHeight}
-                      deviationMax={0.15}
+                      deviationMax={deviation}
                     />
                   </g>
                 )}
               </g>
             </>
           </svg>
-        )}
+        }
       </div>
     );
   }
@@ -217,7 +222,8 @@ class Upset extends React.Component<Props, OwnState> {
 
 const mapStateToProps = (state: UpsetState): StateProps => ({
   data: state.currentData,
-  renderConfig: state.renderConfig
+  renderConfig: state.renderConfig,
+  loadingDataset: state.loadingDataset
 });
 
 const mapDispatchToProps = (dispatch: any): DispatchProps => ({});

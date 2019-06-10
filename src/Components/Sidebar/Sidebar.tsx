@@ -6,7 +6,9 @@ import {
   Card,
   Form,
   Input,
-  Checkbox
+  Checkbox,
+  Header,
+  Label
 } from "semantic-ui-react";
 import { AggregateBy } from "../../types/AggregateBy.enum";
 import { SortBy } from "../../types/SortBy.enum";
@@ -17,6 +19,7 @@ import {
   UpdateRenderConfigAction,
   RenderConfigActions
 } from "../../State/Reducers/RenderConfig.reducer";
+import styles from "./sidebar.module.scss";
 
 interface OwnProps {}
 
@@ -86,9 +89,17 @@ class Sidebar extends React.Component<Props, State> {
         <Accordion as={Menu} vertical fluid>
           <Menu.Item>
             <Accordion.Title
+              className={styles.accordion_title}
               active={activeindex === 0}
-              content="First Aggregation"
               onClick={() => this.handleClick(0)}
+              content={
+                <>
+                  <Header className={styles.remove_margin}>
+                    First Aggregation
+                  </Header>
+                  <Label>{config.firstLevelAggregation}</Label>
+                </>
+              }
             />
             <Accordion.Content active={activeindex === 0}>
               <Form>
@@ -139,8 +150,16 @@ class Sidebar extends React.Component<Props, State> {
           {config.firstLevelAggregation !== AggregateBy.NONE && (
             <Menu.Item>
               <Accordion.Title
+                className={styles.accordion_title}
                 active={activeindex === 1}
-                content="Second Aggregation"
+                content={
+                  <>
+                    <Header className={styles.remove_margin}>
+                      Second Aggregation
+                    </Header>
+                    <Label>{config.secondLevelAggregation}</Label>
+                  </>
+                }
                 onClick={() => this.handleClick(1)}
               />
               <Accordion.Content active={activeindex === 1}>
@@ -194,8 +213,14 @@ class Sidebar extends React.Component<Props, State> {
 
           <Menu.Item>
             <Accordion.Title
+              className={styles.accordion_title}
               active={activeindex === 2}
-              content="Sort By"
+              content={
+                <>
+                  <Header className={styles.remove_margin}>Sort By</Header>
+                  <Label>{config.sortBy}</Label>
+                </>
+              }
               onClick={() => this.handleClick(2)}
             />
             <Accordion.Content active={activeindex === 2}>
@@ -223,8 +248,24 @@ class Sidebar extends React.Component<Props, State> {
 
           <Menu.Item>
             <Accordion.Title
+              className={styles.accordion_title}
               active={activeindex === 3}
-              content="Data"
+              content={
+                <>
+                  <Header className={styles.remove_margin}>Data</Header>
+                  <Label>
+                    Min <Label.Detail>{config.minDegree}</Label.Detail>
+                  </Label>
+                  <Label>
+                    Max <Label.Detail>{config.maxDegree}</Label.Detail>
+                  </Label>
+                  <Label>
+                    {config.hideEmptyIntersections
+                      ? "Empty Hidden"
+                      : "Empty Visible"}
+                  </Label>
+                </>
+              }
               onClick={() => this.handleClick(3)}
             />
             <Accordion.Content active={activeindex === 3}>
@@ -234,7 +275,6 @@ class Sidebar extends React.Component<Props, State> {
                     <Input
                       fluid
                       label="Min Degree"
-                      labelPosition="right"
                       type="number"
                       defaultValue={config.minDegree}
                       onChange={e => {
@@ -249,7 +289,6 @@ class Sidebar extends React.Component<Props, State> {
                     <Input
                       fluid
                       label="Max Degree"
-                      labelPosition="right"
                       type="number"
                       defaultValue={config.maxDegree}
                       onChange={e => {

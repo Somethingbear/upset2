@@ -15,9 +15,13 @@ import { connect } from "react-redux";
 import Upset from "../Components/UpsetComponent/Upset";
 import { debouncedEventHandler } from "../utils";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import { Data } from "../types/Data.type";
+import { Dimmer, Loader } from "semantic-ui-react";
 
 interface StateProps {
   datasets: DatasetDict;
+  loadingDataset: boolean;
+  data: Data;
 }
 interface OwnProps extends OptionalProps {}
 interface OptionalProps {}
@@ -72,6 +76,8 @@ class App extends React.Component<Props> {
   }
 
   render() {
+    const { loadingDataset } = this.props;
+
     return (
       <>
         <Navbar id="navbar" />
@@ -80,7 +86,15 @@ class App extends React.Component<Props> {
             <Sidebar />
             <DatasetInfoBox />
           </div>
-          <Upset />
+          {loadingDataset ? (
+            <>
+              <Dimmer active>
+                <Loader>Loading Dataset</Loader>
+              </Dimmer>
+            </>
+          ) : (
+            <Upset />
+          )}
           <div>Test</div>
         </div>
       </>
@@ -90,7 +104,9 @@ class App extends React.Component<Props> {
 
 const mapStateToProps = (state: UpsetState): StateProps => {
   return {
-    datasets: state.datasetDict
+    datasets: state.datasetDict,
+    loadingDataset: state.loadingDataset,
+    data: state.currentData
   };
 };
 
